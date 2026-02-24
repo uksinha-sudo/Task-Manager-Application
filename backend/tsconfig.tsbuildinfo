@@ -1,1 +1,1 @@
-{"root":["./src/db.ts","./src/index.ts","./src/routes/taskroute.ts","./src/routes/userroute.ts"],"version":"5.9.3"}
+{"root":["./src/db.ts","./src/index.ts","./src/auth/userauth.ts","./src/routes/taskroute.ts","./src/routes/userroute.ts"],"version":"5.9.3"}

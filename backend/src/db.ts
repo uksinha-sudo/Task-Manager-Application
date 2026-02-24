@@ -2,18 +2,17 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     username: String,
-    email: {type: String, require: true, unique: true},
-    password: {type: String, require: true}
+    email: {type: String, required: true, unique: true},
+    password: {type: String, required: true}
 });
 
 const taskSchema = new mongoose.Schema({
-    title: {type: String, require: true},
+    title: {type: String, required: true},
     description: String,
-    status: Boolean,
+    status: {type: Boolean, default: false},
     dueDate: Date,
-    createdAt: Date,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User"}
-});
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
+}, {timestamps: true});
 
 export const userModel = mongoose.model("User", userSchema);
 export const taskModel = mongoose.model("Task", taskSchema);

@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { userModel } from '../db.js';
+import { taskModel, userModel } from '../db.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { middleware } from '../auth/userAuth.js';
 dotenv.config();
 export const userRouter = Router();
 if (!process.env.JWT_SECRET) {
