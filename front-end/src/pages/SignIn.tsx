@@ -18,17 +18,29 @@ export const SignIn = () => {
     const passwordRef = useRef<HTMLInputElement>(null);
 
     async function signin(){
-        setLoading(!loading);
+        setLoading(true);
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
+        try{
 
-        const response = await axios.post(`${BACKEND_URL}/user/signin`, {
-            email,
-            password
-        });
-        setLoading(!loading);
-        localStorage.setItem("token", response.data.token);
-        navigate("/dashboard");
+            const response = await axios.post(`${BACKEND_URL}/user/signin`, {
+                email,
+                password
+            });
+            setLoading(false);
+            localStorage.setItem("token", response.data.token);
+            navigate("/dashboard");
+        } catch(error){
+            if(axios.isAxiosError(error)){
+                if(error.response){
+                    alert(error.response.data.message);
+                } else {
+                    alert("Network Error");
+                }
+            } else {
+                alert("Something went wrong");
+            }
+        }   
     }
 
     return (
@@ -46,7 +58,7 @@ export const SignIn = () => {
                 <hr className="w-60 mt-7" />
                 <div className="flex justify-center flex-col gap-2 m-5">
                     <Input reference={emailRef} placeholder="Email" type="email" styles="mt-3 border rounded w-60 px-2 py-1.5 outline-none" require={true}/>
-                    <Input reference={passwordRef} placeholder="Username" type="text" styles="mt-3 border rounded w-60 px-2 py-1.5 outline-none" require={true}/>
+                    <Input reference={passwordRef} placeholder="password" type="text" styles="mt-3 border rounded w-60 px-2 py-1.5 outline-none" require={true}/>
                 </div>
                 <div className="mt-8 m-5">
                     <Button text={"Submit"} variant="primary" size="md" onClick={signin} loading={loading} disable={loading}/>

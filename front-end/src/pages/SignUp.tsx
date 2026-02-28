@@ -20,19 +20,31 @@ export const SignUp = () => {
     const passwordRef = useRef<HTMLInputElement>(null);
 
     async function signup(){
-        setLoading(!loading)
+        setLoading(true)
         const username = usernameRef.current?.value;
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
+        try{
 
-        await axios.post(`${BACKEND_URL}/user/signup`, {
-            username,
-            email,
-            password
-        });
-        setLoading(!loading);
-        navigate("/signin");
-        alert("You have signed Up");
+            await axios.post(`${BACKEND_URL}/user/signup`, {
+                username,
+                email,
+                password
+            });
+            setLoading(false);
+            navigate("/signin");
+            alert("You have signed Up");
+        } catch(error){
+            if(axios.isAxiosError(error)){
+                if(error.response){
+                    alert(error.response.data.message);
+                } else {
+                    alert("Network error");
+                }
+            } else {
+                alert("Something went wrong");
+            }
+        }
     }
 
     return (
